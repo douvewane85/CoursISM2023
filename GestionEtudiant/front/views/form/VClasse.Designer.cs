@@ -177,6 +177,7 @@
             ClientSize = new Size(1188, 822);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "VClasse";
             Text = "Form1";
             Load += VClasse_Load;

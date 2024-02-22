@@ -1,4 +1,5 @@
-﻿using GestionEtudiant.back.data.dto;
+﻿using GestionEtudiant.back.core;
+using GestionEtudiant.back.data.dto;
 using GestionEtudiant.back.data.entites;
 using GestionEtudiant.back.services;
 using GestionEtudiant.front.views;
@@ -25,13 +26,14 @@ namespace GestionEtudiant.presenter.impl
 
         public void connexionHandler(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(view.Login) && !String.IsNullOrEmpty(view.Password))
+            try
             {
+                new ModelDataValidation().validate(new UserLoginDto(view.Login, view.Password));
                 User userConnect = userService.connexion(view.Login, view.Password);
                 if (userConnect != null)
                 {
 
-                    IFormMenuView menuView = new MenuForm() ;
+                    IFormMenuView menuView = new MenuForm();
                     IFormMenuPresenter presenter = new FormMenuPresenter(menuView, new UserConnectDto(userConnect));
                     view.HideForm();
                 }
@@ -39,11 +41,14 @@ namespace GestionEtudiant.presenter.impl
                 {
                     view.ErrorMessage = "Login ou Mot de Passe Incorrect";
                 }
-
-            } else
+            }
+            catch (Exception ex)
             {
-                view.ErrorMessage = "Login ou Mot de passe vide";
+                   MessageBox.Show(ex.Message);
+            }
+               
+
             }
         }
-    }
+    
 }

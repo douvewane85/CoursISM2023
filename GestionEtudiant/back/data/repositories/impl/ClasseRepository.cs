@@ -19,6 +19,17 @@ namespace GestionEtudiant.back.data.repositories.impl
             string sql = string.Format("INSERT INTO classe ([name],[filiere], [niveau])  OUTPUT INSERTED.ID  VALUES('{0}','{1}','{2}')", entity.Name, entity.Filiere.Name, entity.Niveau.Name)  ;
             return ExecuteUpdate(sql);
         }
+        private ClasseRepository() { }
+
+        public static ClasseRepository repository= null;
+        public static ClasseRepository GetInstance()
+        {
+            if (repository == null)
+            {
+                repository = new ClasseRepository();
+            }
+            return repository;
+        }
 
         public int delete(int id)
         {

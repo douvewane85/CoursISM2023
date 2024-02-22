@@ -1,5 +1,6 @@
 using GestionEtudiant.back.data.entites;
 using GestionEtudiant.front.views;
+using GestionEtudiant.front.views.form;
 using System.Windows.Forms;
 
 namespace GestionEtudiant
@@ -9,7 +10,7 @@ namespace GestionEtudiant
         private bool isEdit=false;
         private bool isSuccessull = false;
         private string message;
-        public VClasse()
+        private VClasse()
         {
             InitializeComponent();
             ActiveEvent();
@@ -67,6 +68,23 @@ namespace GestionEtudiant
         public void ShowForm()
         {
             Show();
+        }
+
+        private static VClasse instance = null;
+        public static VClasse GetInstance(Form parent)
+        {
+            if (parent.ActiveMdiChild!=null)
+            {
+                parent.ActiveMdiChild.Close();
+
+            }
+            if (instance == null || instance.IsDisposed)
+            {
+                instance= new VClasse();
+                instance.FormBorderStyle = FormBorderStyle.FixedToolWindow;
+                instance.MdiParent= parent;
+            }
+            return instance;
         }
     }
 }

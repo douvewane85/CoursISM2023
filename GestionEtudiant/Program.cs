@@ -1,3 +1,4 @@
+using GestionEtudiant.back.data.enums;
 using GestionEtudiant.back.data.repositories;
 using GestionEtudiant.back.data.repositories.impl;
 using GestionEtudiant.back.services;
@@ -21,7 +22,7 @@ namespace GestionEtudiant
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             ILoginFormView view = new LoginForm();
-            IUserRepository userRepository = new UserRepository();
+            IUserRepository? userRepository = FabriqueRepository.GetInstance(RepositoryName.UserRepository) as IUserRepository;
             IUserService userService=new UserService(userRepository);
             IFormLoginPresenter presenter = new FormLoginPresenter(view, userService) ;  
             Application.Run(view as Form);

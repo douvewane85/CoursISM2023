@@ -1,9 +1,11 @@
 ﻿using GestionEtudiant.back.data.dto;
+using GestionEtudiant.back.data.enums;
 using GestionEtudiant.back.data.repositories;
 using GestionEtudiant.back.data.repositories.impl;
 using GestionEtudiant.back.services;
 using GestionEtudiant.back.services.impl;
 using GestionEtudiant.front.views;
+using GestionEtudiant.front.views.form;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,17 +24,23 @@ namespace GestionEtudiant.presenter.impl
             this.view.UserConnectDto = userConnectDto;
             view.showViewClasse += showClasseHandler;
             this.view.ShowForm();
+            loadViewDefault();
         }
 
-        public void showClasseHandler(object sender, EventArgs e)
+
+        private void  loadViewDefault()
         {
-            IFormClasseView view = new VClasse();
+            IFormClasseView viewClasse = VClasse.GetInstance(view as Form);
             IFiliereRepository filiereRepository = new FiliereRepository();
             INiveauRepository niveauRepository = new NiveauRepository();
-            IClasseRepository classeRepository = new ClasseRepository();
-            IClasseService classeService=new ClasseService(classeRepository, filiereRepository, niveauRepository);
-            IFormClassePresenter presenter = new FormClassePresenter(classeService,view);
-            view.ShowForm();
+            IClasseRepository? classeRepository = FabriqueRepository.GetInstance(RepositoryName.ClasseRepository) as IClasseRepository;
+            IClasseService classeService = new ClasseService(classeRepository, filiereRepository, niveauRepository);
+            IFormClassePresenter presenter = new FormClassePresenter(classeService, viewClasse);
+            viewClasse.ShowForm();
+        }
+        public void showClasseHandler(object sender, EventArgs e)
+        {
+            loadViewDefault();
         }
 
 

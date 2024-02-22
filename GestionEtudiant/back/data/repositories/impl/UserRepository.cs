@@ -11,6 +11,18 @@ namespace GestionEtudiant.back.data.repositories.impl
 {
     public class UserRepository : DataBase, IUserRepository
     {
+
+        private UserRepository() { }
+
+        public static UserRepository userRepository = null;
+        public static UserRepository GetInstance()
+        {
+            if (userRepository == null)
+            {
+                userRepository = new UserRepository();
+            }
+            return userRepository;
+        }
         public int add(User entity)
         {
             throw new NotImplementedException();
